@@ -1,0 +1,58 @@
+version: '3.8'
+volumes:
+  db_data:
+    driver: local
+
+networks:
+  myapp-network:
+    driver: bridge
+
+
+services:
+  app:
+    image: myapp:latest
+    environment:
+      # Map Spring datasource properties from the same variables used for the DB service.
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/${POSTGRES_DB:-mydatabase}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-myuser}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD:-mypassword}
+      - APP_ENV=production
+      - APP_DEBUG=false
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "(curl -sS -f http://localhost:8080/actuator/health | grep -q '"UP"') || (wget -q -O - http://localhost:8080/actuator/health | grep -q 'UP') || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - myapp-network
+
+
+  db:
+    image: postgres:9-alpine
+    environment:
+      # Read from compose environment variables (can be set via a .env file or exported shell env)
+      - POSTGRES_USER=${POSTGRES_USER:-myuser}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-mypassword}
+      - POSTGRES_DB=${POSTGRES_DB:-mydatabase}
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - PGPORT=5434
+    ports:
+      - "5434:5434"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-myuser} -d ${POSTGRES_DB:-mydatabase} -h localhost -p 5432 || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    networks:
+      - myapp-network
