@@ -5,6 +5,12 @@ volumes:
   grafana_data:
     name: grafana_data
     driver: local
+  redis_data:
+    name: redis_data
+    driver: local
+  opensearch_data:
+    name: opensearch_data
+    driver: local
 
 networks:
   myapp-network:
@@ -14,29 +20,29 @@ networks:
 
 
 services:
-  app:
-    image: spring-demo:latest
-    container_name: my-app
-    environment:
-      # Map Spring datasource properties from the same variables used for the DB service.
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5434/${POSTGRES_DB:-app_db}
-      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-myuser}
-      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD:-mypassword}
-      - APP_ENV=production
-      - APP_DEBUG=false
-    depends_on:
-      - db
-    ports:
-      - "8080:8080"
-    restart: no
-    healthcheck:
-      test: [ "CMD-SHELL", "(curl -sS -f http://localhost:8080/actuator/health/livenessState | grep -q 'UP') || exit 1" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    networks:
-      - myapp-network
+#  app:
+#    image: spring-demo:latest
+#    container_name: my-app
+#    environment:
+#      # Map Spring datasource properties from the same variables used for the DB service.
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5434/${POSTGRES_DB:-app_db}
+#      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-myuser}
+#      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD:-mypassword}
+#      - APP_ENV=production
+#      - APP_DEBUG=false
+#    depends_on:
+#      - db
+#    ports:
+#      - "8080:8080"
+#    restart: no
+#    healthcheck:
+#      test: [ "CMD-SHELL", "(curl -sS -f http://localhost:8080/actuator/health/livenessState | grep -q 'UP') || exit 1" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 10s
+#    networks:
+#      - myapp-network
 
 
 
@@ -76,23 +82,8 @@ services:
     networks:
       - myapp-network
     restart: no
-    depends_on:
-      - app
-      - postgres-exporter
-
-  postgres-exporter:
-    image: prometheuscommunity/postgres-exporter:latest
-    container_name: postgres-exporter
-    environment:
-      # Use same compose vars so credentials remain consistent
-      - DATA_SOURCE_NAME=postgresql://${POSTGRES_USER:-myuser}:${POSTGRES_PASSWORD:-mypassword}@db:5434/${POSTGRES_DB:-app_db}?sslmode=disable
-    ports:
-      - "9187:9187"
-    restart: no
-    depends_on:
-      - db
-    networks:
-      - myapp-network
+#    depends_on:
+#      - app
 
   grafana:
     image: grafana/grafana:latest
@@ -112,3 +103,43 @@ services:
     restart: no
     depends_on:
       - prometheus
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - myapp-network
+    restart: no
+
+  opensearch:
+    image: opensearchproject/opensearch:2.8.0
+    container_name: opensearch
+    environment:
+      - discovery.type=single-node
+      - cluster.name=opensearch-cluster
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - plugins.security.disabled=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    networks:
+      - myapp-network
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+    restart: no
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -sS http://localhost:9200/_cluster/health | grep '\"status\"' || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
