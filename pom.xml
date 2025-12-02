@@ -60,12 +60,6 @@
             <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
             <scope>runtime</scope>
@@ -110,11 +104,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webmvc-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
@@ -151,6 +140,14 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.2</version>
+                <configuration>
+                    <argLine>-javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar</argLine>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -161,14 +158,14 @@
                         <name>docker.io/library/spring-demo</name>
                         <tags>
                             <tag>latest</tag>
-<!--                            <tag>${project.version}</tag>-->
+                            <!--                            <tag>${project.version}</tag>-->
                             <tag>build-${maven.build.timestamp}</tag>
                         </tags>
-<!--                        <labels>-->
-<!--                            <maintainer>Rishabh Jain &lt;jsindotrishabh@gmail.com&gt;</maintainer>-->
-<!--                            <version>${project.version}</version>-->
-<!--                            <environment>production</environment>-->
-<!--                        </labels>-->
+                        <!--                        <labels>-->
+                        <!--                            <maintainer>Rishabh Jain &lt;jsindotrishabh@gmail.com&gt;</maintainer>-->
+                        <!--                            <version>${project.version}</version>-->
+                        <!--                            <environment>production</environment>-->
+                        <!--                        </labels>-->
                     </image>
                     <excludes>
                         <exclude>
