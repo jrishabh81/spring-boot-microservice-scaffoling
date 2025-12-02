@@ -3,7 +3,7 @@ package com.rjain.spring_demo.controller;
 import com.rjain.spring_demo.hibernate.dto.UserDto;
 import com.rjain.spring_demo.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> listUsers(PageRequest pageRequest) {
+    public ResponseEntity<List<UserDto>> listUsers(Pageable pageRequest) {
         List<UserDto> list = userService.listUsers(pageRequest);
         return ResponseEntity.ok(list);
     }
