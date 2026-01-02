@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hello Consumer</title>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/hello.css">
+</head>
+<body>
+  <div class="card container">
+    <h1>Call /hello</h1>
+    <p>Enter a name and click <strong>Call</strong>. The server response will appear below.</p>
+
+    <label for="nameInput">Name (optional)</label>
+    <input id="nameInput" type="text" placeholder="e.g. Alice" />
+    <div class="controls">
+      <div>
+        <button id="callBtn">Call</button>
+        <button id="clearBtn" type="button">Clear</button>
+      </div>
+      <div id="statusArea" aria-hidden="true"></div>
+    </div>
+
+    <div id="resultDiv" aria-live="polite" role="status"></div>
+    <a class="link-root" href="/">Back to root</a>
+  </div>
+
+  <script src="/js/hello.js" defer></script>
+</body>
+</html>

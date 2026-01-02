@@ -1,0 +1,13 @@
+/* hello.css - styles specific to hello.html consumer page */
+.card{max-width:640px;margin:0 auto;border:1px solid #eee;padding:1.25rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+label{display:block;margin-bottom:.5rem;font-weight:600}
+input[type="text"]{width:100%;padding:.5rem;font-size:1rem;margin-bottom:.75rem}
+button{padding:.5rem 1rem;font-size:1rem}
+#resultDiv{margin-top:1rem;padding:.75rem;background:#fafafa;border:1px solid #eee;min-height:2rem;white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Roboto Mono","Courier New",monospace}
+#resultDiv.success{color:var(--success-text);background:var(--success-bg);border-color:#d4f0d7}
+#resultDiv.error{color:var(--error-text);background:var(--error-bg);border-color:#f3d6d6}
+.spinner{width:18px;height:18px;border:3px solid rgba(0,0,0,0.08);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;display:inline-block;vertical-align:middle;margin-left:.5rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.controls{display:flex;gap:.5rem;align-items:center}
+.link-root{margin-top:.75rem;display:block;font-size:.9rem}
+
