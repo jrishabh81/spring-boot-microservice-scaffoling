@@ -21,5 +21,10 @@
 .chart-wrap{display:inline-block;margin-right:1rem}
 .chart-legend{display:inline-block;vertical-align:top;color:var(--text-muted)}
 .small-muted{font-size:.9rem;color:var(--text-muted)}
-.footer-links{margin-top:1rem;color:var(--text-primary)}
+.footer-links{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border-color);color:var(--text-primary)}
+.footer-links p{margin:.5rem 0;font-weight:600}
+.footer-links ul{margin:.5rem 0;padding-left:1.5rem}
+.footer-links li{margin:.25rem 0}
+.footer-links a{color:var(--accent);text-decoration:none}
+.footer-links a:hover{text-decoration:underline}
 .pre-block{white-space:pre-wrap;font-size:.9rem;color:var(--text-primary)}

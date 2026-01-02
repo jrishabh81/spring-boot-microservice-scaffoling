@@ -260,6 +260,12 @@
     }
 
     const footer = el('div', { class: 'footer-links' });
+    footer.appendChild(el('p', { text: 'External Tools:' }));
+    const toolsList = el('ul');
+    toolsList.appendChild(el('li', {}, el('a', { href: 'http://localhost:3000', target: '_blank', text: 'Grafana (Dashboard)' })));
+    toolsList.appendChild(el('li', {}, el('a', { href: 'http://localhost:9090', target: '_blank', text: 'Prometheus (Metrics)' })));
+    toolsList.appendChild(el('li', {}, el('a', { href: 'http://localhost:9200', target: '_blank', text: 'OpenSearch (Search Engine)' })));
+    footer.appendChild(toolsList);
 
     root.appendChild(header);
     root.appendChild(componentsContainer);

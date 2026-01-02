@@ -119,13 +119,13 @@
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <java>
-<!--                        <eclipse>-->
-<!--                            <version>v1</version>-->
-<!--                            <configFile>${project.basedir}/code-style.xml</configFile>-->
-<!--                        </eclipse>-->
+                        <!--                        <eclipse>-->
+                        <!--                            <version>v1</version>-->
+                        <!--                            <configFile>${project.basedir}/code-style.xml</configFile>-->
+                        <!--                        </eclipse>-->
                         <googleJavaFormat>
                             <version>1.32.0</version>
-                            <style>AOSP </style>
+                            <style>AOSP</style>
                         </googleJavaFormat>
                         <licenseHeader>
                             <content>/* (C)$YEAR */</content>
@@ -195,7 +195,7 @@
                         <name>docker.io/library/spring-demo</name>
                         <tags>
                             <tag>latest</tag>
-                            <!--                            <tag>${project.version}</tag>-->
+<!--                            <tag>${project.version}</tag>-->
                             <tag>build-${maven.build.timestamp}</tag>
                         </tags>
                         <!--                        <labels>-->
