@@ -1,29 +1,23 @@
-/* hello.css - styles specific to hello.html consumer page */
-.card{max-width:640px;margin:0 auto;border:1px solid #eee;padding:1.25rem;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
-label{display:block;margin-bottom:.5rem;font-weight:600}
-input[type="text"]{width:100%;padding:.5rem;font-size:1rem;margin-bottom:.75rem}
-button{padding:.5rem 1rem;font-size:1rem}
-#resultDiv{margin-top:1rem;padding:.75rem;background:#fafafa;border:1px solid #eee;min-height:2rem;white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Roboto Mono","Courier New",monospace}
-#resultDiv.success{color:var(--success-text);background:var(--success-bg);border-color:#d4f0d7}
-#resultDiv.error{color:var(--error-text);background:var(--error-bg);border-color:#f3d6d6}
+/* hello.css - styles specific to hello.html consumer page with dark theme support */
+.card{max-width:640px;margin:0 auto;border:1px solid var(--card-border);padding:1.25rem;border-radius:8px;box-shadow:var(--card-shadow);background:var(--bg-secondary);transition:background-color 0.2s, border-color 0.2s}
+label{display:block;margin-bottom:.5rem;font-weight:600;color:var(--text-primary)}
+input[type="text"]{width:100%;padding:.5rem;font-size:1rem;margin-bottom:.75rem;background:var(--bg-primary);color:var(--text-primary);border:1px solid var(--border-color);border-radius:4px;transition:background-color 0.2s}
+input[type="text"]:focus{outline:2px solid var(--accent);outline-offset:2px}
+button{padding:.5rem 1rem;font-size:1rem;background:var(--accent);color:#fff;border:none;border-radius:4px;cursor:pointer;transition:opacity 0.15s}
+button:hover{opacity:0.9}
+button:focus{outline:2px solid var(--accent);outline-offset:2px}
+#resultDiv{margin-top:1rem;padding:.75rem;background:var(--bg-primary);border:1px solid var(--border-color);border-radius:6px;min-height:2rem;white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Roboto Mono","Courier New",monospace;color:var(--text-primary);transition:background-color 0.2s}
+#resultDiv.success{color:var(--success-text);background:var(--success-bg);border-color:rgba(29,127,55,0.3)}
+[data-theme="dark"] #resultDiv.success{border-color:rgba(93,220,93,0.3)}
+#resultDiv.error{color:var(--error-text);background:var(--error-bg);border-color:rgba(169,18,18,0.3)}
+[data-theme="dark"] #resultDiv.error{border-color:rgba(255,107,107,0.3)}
 .spinner{width:18px;height:18px;border:3px solid rgba(0,0,0,0.08);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;display:inline-block;vertical-align:middle;margin-left:.5rem}
+[data-theme="dark"] .spinner{border-color:rgba(255,255,255,0.1)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .controls{display:flex;gap:.5rem;align-items:center}
-.link-root{margin-top:.75rem;display:block;font-size:.9rem}
-
-/* New styles for response history */
-.status-message{font-weight:600;margin-bottom:.5rem}
-.history-entry{display:flex;gap:1rem;padding:.5rem;border-top:1px solid rgba(0,0,0,0.03);align-items:flex-start}
-.history-entry:first-of-type{border-top:none}
-.history-entry.success .entry-body pre{color:var(--success-text)}
-.history-entry.error .entry-body pre{color:var(--error-text)}
-.entry-body{flex:1;min-width:0}
-.entry-body .entry-pre{margin:0;font-family:inherit;white-space:pre-wrap;font-size:.95rem;overflow:auto}
-.entry-meta{flex:0 0 90px;text-align:right;display:flex;flex-direction:column;gap:0.25rem;align-items:flex-end;font-size:.85rem;color:var(--muted)}
-.entry-duration{font-weight:700;color:var(--muted)}
-.entry-ts{font-size:0.8rem;color:var(--muted)}
-/* keep small screens usable */
-@media (max-width:560px){
-  .history-entry{flex-direction:column}
-  .entry-meta{align-items:flex-start;text-align:left}
-}
+.link-root{margin-top:.75rem;display:block;font-size:.9rem;color:var(--accent)}
+.history-entry{margin-top:.75rem;padding:.75rem;background:var(--bg-primary);border:1px solid var(--border-color);border-radius:6px;transition:background-color 0.2s}
+.entry-body{flex:1}
+.entry-pre{margin:0;font-size:.85rem;color:var(--text-primary);overflow-x:auto}
+.entry-meta{font-size:.85rem;color:var(--text-muted);margin-top:.25rem}
+.status-message{padding:.75rem;border-radius:6px;margin-bottom:.5rem;color:var(--text-primary);background:var(--bg-primary);border:1px solid var(--border-color)}

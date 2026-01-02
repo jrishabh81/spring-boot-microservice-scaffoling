@@ -11,6 +11,11 @@
   </style>
 </head>
 <body>
+  <!-- Theme toggle button in top right -->
+  <button id="themeToggleBtn" type="button" aria-label="Toggle dark/light theme" aria-pressed="false">
+    <span class="theme-icon">🌙</span>
+  </button>
+
   <div class="container">
     <h1>Spring Demo</h1>
     <div id="healthRoot">Loading health information...</div>
@@ -22,6 +27,7 @@
     </ul>
   </div>
 
+  <script src="./js/theme.js" defer></script>
   <script src="./js/index.js" defer></script>
 </body>
 </html>

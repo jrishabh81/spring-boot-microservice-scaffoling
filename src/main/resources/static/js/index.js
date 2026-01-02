@@ -71,6 +71,7 @@
    * drawDiskPie
    * Draws a donut-style pie chart on a canvas element representing used vs free disk space.
    * The function handles devicePixelRatio scaling to produce crisp graphics on HiDPI screens.
+   * Colors adapt to the current theme (light or dark).
    *
    * @param {HTMLCanvasElement} canvas - Canvas element to draw into
    * @param {number} usedBytes - Number of bytes used on disk
@@ -95,17 +96,20 @@
     const cy = height / 2;
     const radius = Math.min(width, height) / 2 - 8;
 
+    // Detect dark theme for color adaptation
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
     // background
     ctx.clearRect(0,0,width,height);
 
-    // draw free slice (green)
+    // draw free slice (green in light mode, brighter in dark mode)
     const start = -Math.PI / 2;
     const usedAngle = usedPct * Math.PI * 2;
     ctx.beginPath();
     ctx.moveTo(cx,cy);
     ctx.arc(cx,cy,radius, start + usedAngle, start + Math.PI * 2);
     ctx.closePath();
-    ctx.fillStyle = '#1a7f37'; // green for free
+    ctx.fillStyle = isDark ? '#5ddc5d' : '#1a7f37'; // green free space
     ctx.fill();
 
     // draw used slice (red)
@@ -113,17 +117,17 @@
     ctx.moveTo(cx,cy);
     ctx.arc(cx,cy,radius, start, start + usedAngle);
     ctx.closePath();
-    ctx.fillStyle = '#c92a2a'; // red for used
+    ctx.fillStyle = isDark ? '#ff6b6b' : '#c92a2a'; // red used space
     ctx.fill();
 
     // inner circle to create donut
     ctx.beginPath();
     ctx.arc(cx,cy,radius*0.55,0,Math.PI*2);
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = isDark ? '#1e1e1e' : '#fff';
     ctx.fill();
 
     // labels - centered percent
-    ctx.fillStyle = '#111';
+    ctx.fillStyle = isDark ? '#e8e8e8' : '#111';
     ctx.font = '14px system-ui, -apple-system, Roboto, "Helvetica Neue", Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
