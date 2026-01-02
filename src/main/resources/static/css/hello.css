@@ -11,3 +11,19 @@ button{padding:.5rem 1rem;font-size:1rem}
 .controls{display:flex;gap:.5rem;align-items:center}
 .link-root{margin-top:.75rem;display:block;font-size:.9rem}
 
+/* New styles for response history */
+.status-message{font-weight:600;margin-bottom:.5rem}
+.history-entry{display:flex;gap:1rem;padding:.5rem;border-top:1px solid rgba(0,0,0,0.03);align-items:flex-start}
+.history-entry:first-of-type{border-top:none}
+.history-entry.success .entry-body pre{color:var(--success-text)}
+.history-entry.error .entry-body pre{color:var(--error-text)}
+.entry-body{flex:1;min-width:0}
+.entry-body .entry-pre{margin:0;font-family:inherit;white-space:pre-wrap;font-size:.95rem;overflow:auto}
+.entry-meta{flex:0 0 90px;text-align:right;display:flex;flex-direction:column;gap:0.25rem;align-items:flex-end;font-size:.85rem;color:var(--muted)}
+.entry-duration{font-weight:700;color:var(--muted)}
+.entry-ts{font-size:0.8rem;color:var(--muted)}
+/* keep small screens usable */
+@media (max-width:560px){
+  .history-entry{flex-direction:column}
+  .entry-meta{align-items:flex-start;text-align:left}
+}

@@ -14,6 +14,11 @@ public class HelloService {
 
     @Cacheable(cacheNames = "helloCache", keyGenerator = "sanitisedKeyGenerator")
     public @NotNull String hello(String name) {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         log.info("Generating greeting for name: {}", name);
         if (StringUtils.isEmpty(name)) {
             return "Hello, World!";
