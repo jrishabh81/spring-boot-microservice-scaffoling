@@ -1,11 +1,14 @@
+/* (C)2025 */
 package com.rjain.spring_demo.controller;
 
-import com.rjain.spring_demo.service.HelloService;
-import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.rjain.spring_demo.service.HelloService;
+
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
@@ -17,5 +20,4 @@ public class HelloController {
     public ResponseEntity<String> hello(String name) {
         return ResponseEntity.ok(helloService.hello(name));
     }
-
 }

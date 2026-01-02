@@ -1,3 +1,4 @@
+/* (C)2025 */
 package com.rjain.spring_demo.config;
 
 import org.springframework.context.annotation.Bean;

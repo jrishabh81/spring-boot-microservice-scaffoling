@@ -1,4 +1,7 @@
+/* (C)2025 */
 package com.rjain.spring_demo.hibernate.entity;
+
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,13 +17,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
-
 @Entity
-@Table(name = "users", indexes = {
-        @Index(columnList = "username"),
-        @Index(columnList = "email")
-})
+@Table(
+        name = "users",
+        indexes = {@Index(columnList = "username"), @Index(columnList = "email")})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -67,4 +67,3 @@ public class User {
         this.updatedAt = Instant.now();
     }
 }
-

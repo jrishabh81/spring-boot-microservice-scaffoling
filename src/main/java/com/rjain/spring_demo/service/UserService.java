@@ -1,17 +1,20 @@
+/* (C)2025 */
 package com.rjain.spring_demo.service;
 
-import com.rjain.spring_demo.hibernate.dto.UserDto;
-import com.rjain.spring_demo.hibernate.entity.User;
-import com.rjain.spring_demo.hibernate.mapper.UserMapper;
-import com.rjain.spring_demo.hibernate.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.rjain.spring_demo.hibernate.dto.UserDto;
+import com.rjain.spring_demo.hibernate.entity.User;
+import com.rjain.spring_demo.hibernate.mapper.UserMapper;
+import com.rjain.spring_demo.hibernate.repository.UserRepository;
+
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Service
@@ -34,34 +37,48 @@ public class UserService {
     }
 
     public UserDto getUser(Long id) {
-        return userRepository.findById(id)
+        return userRepository
+                .findById(id)
                 .map(userMapper::toDto)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"));
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"));
     }
 
     public List<UserDto> listUsers(Pageable pageable) {
-        return userRepository.findAll(pageable)
-                .stream()
+        return userRepository.findAll(pageable).stream()
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public UserDto updateUser(Long id, UserDto dto) {
-        User existing = userRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"));
+        User existing =
+                userRepository
+                        .findById(id)
+                        .orElseThrow(
+                                () ->
+                                        new ResponseStatusException(
+                                                HttpStatus.NOT_FOUND, "user not found"));
 
         // check username/email uniqueness if changed
         if (dto.getUsername() != null && !dto.getUsername().equals(existing.getUsername())) {
-            userRepository.findByUsername(dto.getUsername()).ifPresent(u -> {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "username already exists");
-            });
+            userRepository
+                    .findByUsername(dto.getUsername())
+                    .ifPresent(
+                            u -> {
+                                throw new ResponseStatusException(
+                                        HttpStatus.BAD_REQUEST, "username already exists");
+                            });
             existing.setUsername(dto.getUsername());
         }
 
         if (dto.getEmail() != null && !dto.getEmail().equals(existing.getEmail())) {
-            userRepository.findByEmail(dto.getEmail()).ifPresent(u -> {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "email already exists");
-            });
+            userRepository
+                    .findByEmail(dto.getEmail())
+                    .ifPresent(
+                            u -> {
+                                throw new ResponseStatusException(
+                                        HttpStatus.BAD_REQUEST, "email already exists");
+                            });
             existing.setEmail(dto.getEmail());
         }
 

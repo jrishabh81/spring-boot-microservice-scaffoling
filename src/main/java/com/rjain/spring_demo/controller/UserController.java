@@ -1,15 +1,18 @@
+/* (C)2025 */
 package com.rjain.spring_demo.controller;
 
-import com.rjain.spring_demo.hibernate.dto.UserDto;
-import com.rjain.spring_demo.service.UserService;
-import lombok.AllArgsConstructor;
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.rjain.spring_demo.hibernate.dto.UserDto;
+import com.rjain.spring_demo.service.UserService;
+
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/user")
