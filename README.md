@@ -1,6 +1,8 @@
 
 # Spring Boot Quick Stater for Microservices
 
+[![Java CI with Maven](https://github.com/jrishabh81/spring-boot-microservice-scaffoling/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/jrishabh81/spring-boot-microservice-scaffoling/actions/workflows/maven.yml)
+
 Components included:
 - Spring Boot running rest based Java application
 - PostgresSQL database integration using Spring Data JPA and Hikari
