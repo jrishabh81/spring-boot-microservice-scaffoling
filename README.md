@@ -13,12 +13,14 @@ Components included:
 - Docker Compose setup for easy local development and testing
 - Sample REST endpoints for CRUD operations
 
-Pending Items:
+# In-progress Items:
 - Flyway database migrations
-- Unit and integration tests
+- Unit and integration tests 
+- API documentation using Swagger/OpenAPI
+
+# Pending Items:
 - Opensearch Integration
 - Kafka Integration
-- API documentation using Swagger/OpenAPI
 - Sample data seeding for development environment
 - GraphQL support
 - WebSocket support for real-time communication
