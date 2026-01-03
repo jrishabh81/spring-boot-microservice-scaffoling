@@ -20,7 +20,7 @@ public class HelloService {
             throw new RuntimeException(e);
         }
         log.info("Generating greeting for name: {}", name);
-        if (StringUtils.isEmpty(name)) {
+        if (StringUtils.isBlank(name)) {
             return "Hello, World!";
         }
         return "Hello, " + StringUtils.normalizeSpace(name) + "!";

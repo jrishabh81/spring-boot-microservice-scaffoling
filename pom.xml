@@ -108,6 +108,18 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- Other dependencies... -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Add the umbrella starter-test to make test annotations (WebMvcTest, MockBean) available -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -119,10 +131,6 @@
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <java>
-                        <!--                        <eclipse>-->
-                        <!--                            <version>v1</version>-->
-                        <!--                            <configFile>${project.basedir}/code-style.xml</configFile>-->
-                        <!--                        </eclipse>-->
                         <googleJavaFormat>
                             <version>1.32.0</version>
                             <style>AOSP</style>
@@ -161,7 +169,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <!--							<version>1.18.36</version>-->
+                            <!--                        <version>1.18.36</version>-->
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -176,13 +184,58 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <!-- JaCoCo code coverage plugin: prepares the agent before tests and generates HTML report at verify -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.14</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                    <!-- Optional: coverage check (disabled by default). Enable or adjust thresholds if you want to fail the build on low coverage. -->
+                    <execution>
+                        <id>check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>verify</phase>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.55</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
                 <configuration>
                     <argLine>
-                        -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
+                        ${argLine} -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
                     </argLine>
                 </configuration>
             </plugin>
@@ -195,14 +248,8 @@
                         <name>docker.io/library/spring-demo</name>
                         <tags>
                             <tag>latest</tag>
-<!--                            <tag>${project.version}</tag>-->
                             <tag>build-${maven.build.timestamp}</tag>
                         </tags>
-                        <!--                        <labels>-->
-                        <!--                            <maintainer>Rishabh Jain &lt;jsindotrishabh@gmail.com&gt;</maintainer>-->
-                        <!--                            <version>${project.version}</version>-->
-                        <!--                            <environment>production</environment>-->
-                        <!--                        </labels>-->
                     </image>
                     <excludes>
                         <exclude>
