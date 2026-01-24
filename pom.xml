@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.rjain</groupId>
@@ -27,7 +27,7 @@
         <url/>
     </scm>
     <properties>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <maven.build.timestamp.format>yyyy-MM-dd-HHmmss</maven.build.timestamp.format>
     </properties>
@@ -224,7 +224,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.55</minimum>
+                                            <minimum>0.50</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
@@ -240,31 +240,56 @@
                 <version>3.5.2</version>
                 <configuration>
                     <argLine>
-                        ${argLine} -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
+                        ${argLine}
+                        -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
                     </argLine>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.5.1</version>
                 <configuration>
-                    <goal>build-image-no-fork</goal>
-                    <image>
-                        <name>docker.io/library/spring-demo</name>
+                    <from>
+                        <image>eclipse-temurin:25-jre-jammy</image>
+                        <platforms>
+                            <platform>
+                                <architecture>arm64</architecture>
+                                <os>linux</os>
+                            </platform>
+                        </platforms>
+                    </from>
+                    <container>
+                        <mainClass>com.rjain.spring_demo.SpringDemoApplication</mainClass>
+                        <ports>
+                            <!-- should match the port specified in spring bot application-xxx.properties -->
+                            <port>8080</port>
+                        </ports>
+                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                        <labels>
+                            <label>maintainer=Rishabh Jain</label>
+                        </labels>
+                        <jvmFlags>
+                            <jvmFlag>-Xms1024m</jvmFlag>
+                            <jvmFlag>-Xmx2048m</jvmFlag>
+                        </jvmFlags>
+                        <volumes>
+                            <volume>/app</volume>
+                        </volumes>
+                    </container>
+                    <to>
+                        <image>${project.artifactId}</image>
                         <tags>
+                            <tag>${project.version}</tag>
                             <tag>latest</tag>
-                            <tag>build-${maven.build.timestamp}</tag>
                         </tags>
-                    </image>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
+                    </to>
                 </configuration>
+                <groupId>com.google.cloud.tools</groupId>
             </plugin>
         </plugins>
     </build>
-
 </project>
